@@ -1,0 +1,23 @@
+# DroneVehicle (OBB) 数据集配置
+# 使用前请把 `path` 改成你本地的数据集根目录 (绝对或相对路径均可).
+# 目录结构:
+#   <path>/train/images/*.jpg        训练图 (RGB+IR 已按 4 通道拼接或自行拆分)
+#   <path>/train/labels/*.txt        训练 OBB 标签 (x_c y_c w h theta cls, 归一化)
+#   <path>/val/images/*.jpg
+#   <path>/val/labels/*.txt
+#   <path>/test/images/*.jpg
+#   <path>/test/labels/*.txt
+
+path: ../datasets/dataset2_obb   # dataset root (请按本地环境修改)
+train: train/images
+val: val/images
+test: test/images
+
+task: obb
+
+names:
+  0: car
+  1: truck
+  2: bus
+  3: van
+  4: freight_car

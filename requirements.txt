@@ -1,0 +1,12 @@
+# VIGA-Det 额外依赖 (ultralytics 自身的依赖由 `pip install -e ultralytics_yolo11_mamba/` 自动安装)
+#
+# 安装顺序:
+#   1) pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+#   2) cd ultralytics_yolo11_mamba && pip install -e .
+#   3) pip install -r requirements.txt
+#
+# 重要: mamba-ssm / causal-conv1d 只支持 CUDA GPU, 需要匹配的 PyTorch + CUDA toolkit.
+# 若无 GPU 请改用其他实现或跳过 SSM-CSP 模块.
+
+mamba-ssm>=1.2.0
+causal-conv1d>=1.2.0

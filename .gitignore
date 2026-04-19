@@ -1,0 +1,43 @@
+# === VIGA-Det .gitignore ===
+
+# ---- Python 缓存与构建产物 ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.eggs/
+
+# ---- 训练产物 ----
+runs/
+wandb/
+*.pt
+*.pth
+*.onnx
+*.engine
+*.trt
+*.log
+*.out
+
+# ---- 可视化输出 ----
+visualized_comparison/
+predictions/
+*.mp4
+
+# ---- 数据集实际内容 (只开源 data.yaml 模板, 不含图片) ----
+A18_Project/datasets/dataset2_obb/train/
+A18_Project/datasets/dataset2_obb/val/
+A18_Project/datasets/dataset2_obb/test/
+
+# ---- 编辑器 / 系统 ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# ---- 密钥/秘密 (安全红线) ----
+.env
+*.key
+*.pem
+wandb-api-key*

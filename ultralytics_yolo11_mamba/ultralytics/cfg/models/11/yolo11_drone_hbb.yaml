@@ -1,0 +1,39 @@
+# YOLO11-Drone-HBB (Standard Detection)
+# 4通道 + SPD + Mamba
+
+nc: 15  # 您的类别数
+ch: 4   # 4通道输入
+depth_multiple: 0.50
+width_multiple: 0.50
+
+backbone:
+  # Layer 0: SPD-Conv (Early Fusion)
+  - [-1, 1, SPDConv, [64]] 
+  - [-1, 1, Conv, [128, 3, 2]]
+  - [-1, 2, C3k2, [256, False, 0.25]]
+  - [-1, 1, Conv, [256, 3, 2]]
+  - [-1, 2, C3k2, [512, False, 0.25]]
+  # Layer 5: Mamba Fusion
+  - [-1, 2, C2f_Mamba, [512, True]]
+  - [-1, 1, Conv, [512, 3, 2]]
+  # Layer 7: Deep Mamba
+  - [-1, 2, C2f_Mamba, [512, True]]
+  - [-1, 1, SPPF, [512, 5]]
+
+head:
+  - [-1, 1, nn.Upsample, [None, 2, 'nearest']]
+  - [[-1, 5], 1, Concat, [1]] 
+  - [-1, 2, C3k2, [512, False]]
+
+  - [-1, 1, nn.Upsample, [None, 2, 'nearest']]
+  - [[-1, 2], 1, Concat, [1]] 
+  - [-1, 2, C3k2, [256, False]]
+
+  # P2 Head (微小目标)
+  - [-1, 1, nn.Upsample, [None, 2, 'nearest']]
+  - [[-1, 0], 1, Concat, [1]] 
+  - [-1, 2, C3k2, [128, False]]
+
+  # Detect Head (Standard HBB)
+  # 注意：这里换回了 Detect，不再是 OBB
+  - [[17, 14, 11], 1, Detect, [nc]]
