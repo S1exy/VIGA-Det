@@ -51,12 +51,15 @@ def main():
     print(f"mAP50    : {metrics.box.map50:.4f}")
     print(f"mAP50-95 : {metrics.box.map:.4f}")
     print("-- per-class mAP50-95 --")
-    for i, class_name in enumerate(metrics.names.values()):
+    for i, class_name in metrics.names.items():
         print(f"  {class_name:<12}: {metrics.box.maps[i]:.4f}")
 
     # ---------- 可视化推理 ----------
     print(f"[VIGA-Det] 抽取 {NUM_VIS_IMAGES} 张测试图做旋转框可视化 ...")
-    img_paths = sorted(glob.glob(os.path.join(VAL_IMAGES_DIR, "*.jpg")))[:NUM_VIS_IMAGES]
+    exts = ("*.jpg", "*.jpeg", "*.png", "*.bmp")
+    img_paths = sorted(
+        p for e in exts for p in glob.glob(os.path.join(VAL_IMAGES_DIR, e))
+    )[:NUM_VIS_IMAGES]
 
     if not img_paths:
         print("  [!] 未找到测试图, 请检查 VAL_IMAGES_DIR 与后缀.")

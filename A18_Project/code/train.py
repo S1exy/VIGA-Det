@@ -11,6 +11,7 @@
 """
 import faulthandler
 faulthandler.enable()
+from pathlib import Path
 import cv2
 cv2.setNumThreads(0)
 
@@ -26,8 +27,9 @@ def safe_get_flops(model, imgsz=640):
 torch_utils.get_flops = safe_get_flops
 
 
-# ===== 路径配置 (请按本地环境修改) =====
-DATA_CFG = "../datasets/dataset2_obb/data.yaml"
+# ===== 路径配置 (以脚本所在目录为基准, 不受 CWD 影响) =====
+ROOT = Path(__file__).resolve().parent
+DATA_CFG = str(ROOT.parent / "datasets" / "dataset2_obb" / "data.yaml")
 MODEL_CFG = "yolo11-spatial-iaga-obb-spd.yaml"
 
 
@@ -64,7 +66,7 @@ def main():
 
         # ---- 训练策略 ----
         cache=False,
-        amp=False,
+        amp=True,
         workers=8,
         deterministic=False,
     )
