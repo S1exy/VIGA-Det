@@ -51,7 +51,7 @@ def main():
     print(f"mAP50    : {metrics.box.map50:.4f}")
     print(f"mAP50-95 : {metrics.box.map:.4f}")
     print("-- per-class mAP50-95 --")
-    for i, class_name in metrics.names.items():
+    for i, class_name in enumerate(metrics.names.values()):
         print(f"  {class_name:<12}: {metrics.box.maps[i]:.4f}")
 
     # ---------- 可视化推理 ----------
